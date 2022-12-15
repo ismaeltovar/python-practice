@@ -1,21 +1,27 @@
-from menu import main_m, m_add, m_view
+import menu
+import inventory
+import console
 
 
 def main():
-    org_name = 'company'
     exit = False
-    selection = 0
+    inventory.load()
 
-    print(f'Welcome to {org_name}\'s technology inventory.\n')
     while not exit:
-        selection = main_m()
-        match(selection):
+        selection = menu.display()
+        match selection:
             case 1:
-                m_add()
+                # Add item/s to inventory
+                menu.add_inventory()                
             case 2:
-                m_view()
-        exit = True
+                # View inventory
+                menu.view_inventory()
+            case 3:
+                console.clear()
+                exit = True
+            case _:
+                print("Invalid option.")
 
 
 if __name__ == "__main__":
-    main();
+    main()

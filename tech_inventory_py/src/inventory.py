@@ -1,13 +1,39 @@
+import json
+from json.decoder import JSONDecodeError
+
+item_props = ["price", "rating", "sales"]
 inventory = {}
+inv_items = 0
+org_name = "anonymous"
+
+
+def count():
+    """Print number of items in inventory."""
+    print(f"Number of items: {inv_items}")
+
+
+def load():
+    """Load inventory data from json."""
+    try:
+        with open("data.json", "r", encoding="utf-8") as f:
+            inventory = json.load(f)
+    except JSONDecodeError:
+        print("NOTE: Inventory is empty.")
+    else:
+        count()
 
 
 def view():
     """View current inventory."""
-    for item, props in inventory:
-        print(f"{item}:  ")
-        for prop, val in props:
-            print(f"{prop} = {val}\n")
-        print("\n")
+    count()
+    if inventory == {}:
+        print("Inventory is empty.")
+    else:
+        for item, props in inventory:
+            print(f"{item}:  ", end='')
+            for prop, val in props:
+                print(f"{prop} = {val}")
+            print("")
 
 
 def add(**items):
@@ -17,8 +43,10 @@ def add(**items):
     Keyword arguments:
     **item -- dictionary of items to add.
     Each item should be in the format of keyword={prop_name: prop_value, ...} 
-    """
-    new_inv = {}
-    for name, props in items:
-        new_inv[name] = props
-    inventory = new_inv
+    """    
+    inventory = items
+    inv_items += len(items.keys())
+
+    with open("data.json", "w", encoding="utf-8") as f:
+        json.dump(inventory, f, indent="4")
+    print(f"{inv_items} items stocked.")
