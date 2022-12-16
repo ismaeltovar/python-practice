@@ -15,3 +15,12 @@ def enter_pmt():
     print('')
     print("Press ENTER to continue:", end='')
     input()
+
+
+def invalid_in(txt="input"):
+    """Print Invalid text to cli.
+    
+    Arguments:
+    txt (Optional) -- defaults to "input"
+    """
+    print(f"***Invalid {txt}***")

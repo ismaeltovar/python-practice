@@ -1,15 +1,22 @@
 import json
 from json.decoder import JSONDecodeError
 
-item_props = ["price", "rating", "sales"]
 inventory = {}
 inv_items = 0
 org_name = "anonymous"
+item_props = ["price", "rating", "sales"]
+# Scale rating system is from 1-5 stars
+rating_scale = list(range(1, 6))
 
 
 def count():
     """Print number of items in inventory."""
     print(f"Number of items: {inv_items}")
+
+
+def items():
+    """Return name of each item in inventory, as a list."""
+    return inventory.keys()
 
 
 def load():
@@ -36,17 +43,27 @@ def view():
             print("")
 
 
-def add(**items):
+def add(items):
     """Add items to inventory.
     
     Adds all of the items passed to the function to the inventory.
+
     Keyword arguments:
     **item -- dictionary of items to add.
+
     Each item should be in the format of keyword={prop_name: prop_value, ...} 
-    """    
-    inventory = items
-    inv_items += len(items.keys())
+
+    *DOES NOT validate if the item is already in the dictionary.
+    """
+    try:
+        new_inv = inventory
+    except UnboundLocalError:
+        new_inv = {}
+    for item, props in items:
+        new_inv[item] = props
+        inv_items += 1
+    inventory = new_inv
 
     with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(inventory, f, indent="4")
+        json.dump(new_inv, f, indent="4")
     print(f"{inv_items} items stocked.")
