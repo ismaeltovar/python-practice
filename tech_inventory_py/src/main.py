@@ -1,11 +1,13 @@
-import menu
-import inventory
 import console
+from menu import Menu
+from inventory import Inventory
 
 
 def main():
     exit = False
-    inventory.load()
+    inv = Inventory()
+    inv.load()
+    menu = Menu(inv)
 
     while not exit:
         selection = menu.display()
