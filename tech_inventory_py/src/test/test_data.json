@@ -1,0 +1,12 @@
+{
+    "object": {
+        "price": 1000,
+        "rating": 5,
+        "sales": 1000
+    },
+    "another object": {
+        "price": 50,
+        "rating": 4,
+        "sales": 500
+    }
+}
