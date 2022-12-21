@@ -7,7 +7,7 @@ pytest.skip("Not implemented yet.", allow_module_level=True)
 
 class TestMenu():
     def setUp(self):
-        self.inv = Inventory(data_file="test_data.json")
+        self.inv = Inventory(data_file="tests/data.json")
         self.menu = Menu(self.inv)
 
     # @unittest.skip("Not implemented.")

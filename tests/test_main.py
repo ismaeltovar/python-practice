@@ -1,11 +1,21 @@
 import pytest
+import json
 
-from src import menu
+from src.main import main
 from src.inventory import Inventory
 
 class TestMain():
-    inv = Inventory(data_file="tests/test_data.json")
+    data_file = "tests/data.json"
+    inv = Inventory(data_file=data_file)
 
     def test_inv_instance(self):
+        """Check if inventory is empty when first creating an Inventory object."""
         # "non-empty inventory before load is called"
-        assert self.inv == {}
+        assert self.inv.inventory == {}
+
+    @pytest.mark.skip("Not yet implemented.")
+    def test_inv_load(self):
+        """Check if main inventory object is loading properly."""
+        main()
+        self.inv.load()
+        assert main.inv.inventory == self.inv.inventory

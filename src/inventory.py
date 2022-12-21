@@ -2,7 +2,14 @@ import json
 from json.decoder import JSONDecodeError
 
 class Inventory:
-    """Type to keep track of items in organization's storage."""
+    """Type to keep track of items in organization's storage.
+    
+    inventory is initialized as an empty object. Make sure to call the load() method to load data from JSON.
+
+    Keyword arguments:
+    org_name -- name of organization (default: anonymous)
+    data_file -- name of JSON file with inventory info (default: data.json)
+    """
     inventory = {}
     inv_items = 0
     item_props = ["price", "rating", "sales"]
@@ -17,20 +24,24 @@ class Inventory:
     def count(self):
         """Print number of items in inventory."""
         print(f"Number of items: {self.inv_items}")
+        return len(self.inventory.keys())
 
     def items(self):
         """Return name of each item in inventory, as a list."""
         return self.inventory.keys()
 
     def load(self):
-        """Load inventory data from json."""
+        """Load inventory data from json.
+        
+        Returns number of items in inventory.
+        """
         try:
             with open(self.data_file, "r", encoding="utf-8") as f:
                 self.inventory = json.load(f)
         except JSONDecodeError:
             print("NOTE: Inventory is empty.")
         else:
-            self.count()
+            self.inv_items = self.count()
 
     def view(self):
         """View current inventory."""
@@ -56,15 +67,17 @@ class Inventory:
 
         *DOES NOT validate if the item is already in the dictionary.
         """
-        try: 
-            new_inv = self.inventory
-        except UnboundLocalError:
-            new_inv = {}
-        for item, props in items:
-            new_inv[item] = props
-            self.inv_items += 1
-        self.inventory = new_inv
+        # try: 
+            # new_inv = self.inventory
+            # for name, props in items:
+            #     new_inv[name] = props
+            #     self.inv_items += 1
+            # self.inventory = new_inv
+        # except UnboundLocalError:
+        #     new_inv = {}
+        self.inventory.update(items)
+        self.inv_items = len(self.inventory)
 
         with open(self.data_file, "w", encoding="utf-8") as f:
-            json.dump(new_inv, f, indent="4")
+            json.dump(self.inventory, f, indent="\t")
         print(f"{self.inv_items} items stocked.")

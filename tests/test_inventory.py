@@ -14,17 +14,17 @@ from src.inventory import Inventory
 
 
 class TestInventory():
-    inv = Inventory(data_file="tests/test_data.json")
+    inv = Inventory(data_file="tests/data.json")
     add_item = {"item": {"price": 100, "rating": 5, "sales": 100}}
 
-    @pytest.mark.skipkip("Not implemented yet")
+    @pytest.mark.skip("Not implemented yet")
     def tearDown(self):
         # Tear down method (Not implemented)
         pass
     
     def test_load_json(self):
         """Test if JSON data is loaded correctly"""
-        with open("tests/test_data.json", "r", encoding="utf-8") as f:
+        with open("tests/data.json", "r", encoding="utf-8") as f:
             json_read = json.load(f)
             self.inv.load()
             #  "JSON not loaded properly"
@@ -41,12 +41,12 @@ class TestInventory():
         """Test if add function adds an element"""
         begin_len = self.inv.inv_items
         self.inv.add(items=self.add_item)
-        #  "item not in inventory"
-        assert self.add_item in self.inv.inventory
-        # "inv_items count not incremented")
+        # check if item is in inventory
+        assert "item", self.add_item.get("item") in self.inv.inventory
+        # check if inv_items is incrementing correctly
         assert begin_len + 1 == self.inv.inv_items
         # Check if new item is loaded to JSON file
-        with open("test_data.json", "r", encoding="utf-8") as f:
+        with open(self.inv.data_file, "r", encoding="utf-8") as f:
             json_read = json.load(f)
-            #  "item not in JSON file"
-            assert self.add_item in json_read
+            # Check if items are in JSON file
+            assert "item", self.add_item.get("item") in json_read
